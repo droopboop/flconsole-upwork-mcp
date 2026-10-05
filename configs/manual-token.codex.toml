@@ -1,0 +1,5 @@
+# ~/.codex/config.toml — manual token kept in an environment variable:
+#   export FLCONSOLE_MCP_TOKEN=<token>
+[mcp_servers.flconsole]
+url = "https://mcp.lite.flconsole.com/mcp"
+bearer_token_env_var = "FLCONSOLE_MCP_TOKEN"
