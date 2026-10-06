@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.flconsole/upwork-jobs",
+  "title": "flconsole — Upwork jobs",
+  "description": "Free hosted MCP server: new Upwork jobs for your agent and Telegram alerts within a minute.",
+  "version": "1.0.0",
+  "websiteUrl": "https://flconsole.com/mcp?utm_source=mcp_registry&utm_medium=directory&utm_campaign=launch_mcp",
+  "repository": {
+    "url": "https://github.com/droopboop/flconsole-upwork-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.lite.flconsole.com/mcp"
+    }
+  ]
+}
