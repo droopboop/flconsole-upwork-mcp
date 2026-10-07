@@ -1,5 +1,8 @@
 {
   "mcpServers": {
-    "flconsole": { "url": "https://mcp.lite.flconsole.com/mcp" }
+    "flconsole": {
+      "type": "http",
+      "url": "https://mcp.lite.flconsole.com/mcp"
+    }
   }
 }
