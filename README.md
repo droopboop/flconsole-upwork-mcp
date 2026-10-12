@@ -22,6 +22,7 @@
   <img alt="MCP: Streamable HTTP" src="https://img.shields.io/badge/MCP-Streamable%20HTTP-111">
   <img alt="Sign-in: Telegram" src="https://img.shields.io/badge/sign--in-Telegram-26A5E4">
   <img alt="No API key" src="https://img.shields.io/badge/API%20key-not%20needed-555">
+  <a href="https://allmcps.com/mcp/flconsole-upwork-jobs?verify=b03913f3-7778-423c-a600-9e2194854d92"><img alt="AllMCPs Verified" src="https://allmcps.com/api/badge/flconsole-upwork-jobs"></a>
 </p>
 
 ---
