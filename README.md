@@ -46,6 +46,7 @@ https://mcp.lite.flconsole.com/mcp
 - [Sign-in](#sign-in)
 - [Tools](#tools)
 - [Prompts to start with](#prompts-to-start-with)
+- [Skill for Claude Code](#skill-for-claude-code)
 - [With Upwork's own MCP](#with-upworks-own-mcp)
 - [Limits](#limits)
 - [Links](#links)
@@ -143,6 +144,15 @@ On a schedule in Claude Code:
 
 ```text
 /loop 10m check new jobs in my feeds and show only relevant ones
+```
+
+## Skill for Claude Code
+
+[`skills/upwork-job-hunter`](skills/upwork-job-hunter/SKILL.md) teaches the agent the whole routine: learn what fits you,
+set up feeds, check new jobs, shortlist and draft proposals. Copy it into `~/.claude/skills/`:
+
+```bash
+mkdir -p ~/.claude/skills/upwork-job-hunter && curl -fsSL https://raw.githubusercontent.com/droopboop/flconsole-upwork-mcp/main/skills/upwork-job-hunter/SKILL.md -o ~/.claude/skills/upwork-job-hunter/SKILL.md
 ```
 
 ## With Upwork's own MCP
