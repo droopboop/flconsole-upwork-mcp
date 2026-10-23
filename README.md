@@ -36,7 +36,6 @@ https://mcp.lite.flconsole.com/mcp
 ```
 
 - **Free.** No card, no API key, no paid plan.
-- **New jobs only.** Jobs posted in the last 30 minutes; no search in older jobs.
 - **Your feeds, shared with Telegram.** A feed your agent creates also sends alerts to the [Telegram bot](https://t.me/flconsole_upwork_job_alerts_bot?start=github_repo) within a minute of posting.
 - **No access to your Upwork account.** flconsole never asks for your Upwork login.
 
@@ -47,6 +46,7 @@ https://mcp.lite.flconsole.com/mcp
 - [Tools](#tools)
 - [Prompts to start with](#prompts-to-start-with)
 - [Skill for Claude Code](#skill-for-claude-code)
+- [No terminal? Install in Claude app](#no-terminal-install-in-claude-app)
 - [With Upwork's own MCP](#with-upworks-own-mcp)
 - [Limits](#limits)
 - [Links](#links)
@@ -74,7 +74,7 @@ Guide: [flconsole in Codex](https://flconsole.com/mcp/codex?utm_source=github&ut
 
 ### Claude app
 
-Web, desktop and mobile: **Settings → Connectors → Add custom connector**, paste the server URL:
+Web, desktop and mobile: **Customize → Connectors → + → Add custom connector**, paste the server URL:
 
 ```
 https://mcp.lite.flconsole.com/mcp
@@ -160,13 +160,32 @@ On a schedule in Claude Code:
 - **Tuning with numbers.** Too many jobs, too few or not the right ones — the agent shows the counts and offers concrete changes to the search, filters and criteria.
 - **Telegram alerts** when you want them: the same setup becomes a feed with an AI filter.
 
-Copy it into `~/.claude/skills/`:
+Install it with the [skills](https://skills.sh) CLI (add `-g` to use it in all your projects):
+
+```bash
+npx skills add droopboop/flconsole-upwork-mcp
+```
+
+Or copy it into `~/.claude/skills/`:
 
 ```bash
 mkdir -p ~/.claude/skills/upwork-job-hunter && curl -fsSL https://raw.githubusercontent.com/droopboop/flconsole-upwork-mcp/main/skills/upwork-job-hunter/SKILL.md -o ~/.claude/skills/upwork-job-hunter/SKILL.md
 ```
 
 Then ask Claude Code:
+
+```text
+Set up my Upwork job search.
+```
+
+## No terminal? Install in Claude app
+
+The same skill works in the Claude app on the web and on desktop.
+
+1. Download [**upwork-job-hunter.zip**](https://github.com/droopboop/flconsole-upwork-mcp/releases/latest/download/upwork-job-hunter.zip). Don't unzip it.
+2. In Claude, open **Customize → Skills**, click **+** → **Create skill** → **Upload a skill** and pick the file. Make sure the skill is turned on. If you don't see Skills, turn on **Code execution and file creation** in **Settings → Capabilities**.
+3. Open **Customize → Connectors**, click **+** → **Add custom connector** and paste `https://mcp.lite.flconsole.com/mcp`. Click **Connect** and sign in through Telegram (see [Sign-in](#sign-in)).
+4. Start a new chat and say:
 
 ```text
 Set up my Upwork job search.
