@@ -122,7 +122,7 @@ The sign-in link works for 10 minutes. Disconnect any app later in the bot: `/mc
 | `create_feed` | Creates a feed; needs your approval |
 | `update_feed` | Changes, pauses or resumes a feed |
 | `delete_feed` | Deletes a feed; needs your approval |
-| `preview_filters` | How many jobs matched in the last hours, with samples |
+| `preview_filters` | How many jobs matched over the last 7 days: total, ~per day and per UTC day, with samples |
 | `parse_upwork_url` | Turns an Upwork search link into filters |
 | `list_categories` | Upwork categories and subcategories |
 | `find_locations` | Countries and regions by name |

@@ -28,7 +28,7 @@ Then `/mcp` → `flconsole` → **Authenticate**.
 | Tool | Use it for |
 |---|---|
 | `find_jobs` | New jobs by `filters` (the default), or by a saved feed (`feed_id`, `all_feeds`) |
-| `preview_filters` | How many jobs a setup matched in the last `window_hours` (1–24) + the 3 newest samples |
+| `preview_filters` | How many jobs a setup matched over the last 7 days (`window_hours` up to 168, the default): total, average a day, count per UTC day + the 3 newest samples |
 | `get_job_details` | Full text, terms and client stats for up to 5 `upwork_ids` per call |
 | `parse_upwork_url` | Turns an Upwork job search link into filters |
 | `list_categories` | Category and subcategory ids for `base.category2_uid` / `base.subcategory2_uid` |
@@ -92,8 +92,13 @@ Rules for the whole setup:
   use it and skip the questions it answers. A link goes through `parse_upwork_url`; show what it found.
 - Always show the final search and filters exactly as they will be used, in a code block.
 - The user's own wording is always an option ("keep it as you typed"), with its own count.
-- Count with `preview_filters` (`window_hours: 24`) and say it as a past number:
-  "about 18 jobs in the last 24 hours". Never promise future volume.
+- Count with `preview_filters` (leave `window_hours` out: the default is 7 days) and say it as a past
+  number, the way flconsole's bot does: "126 jobs in the last 7 days (~18 a day)", "3 jobs in the last
+  7 days (under 1 a day)", "no jobs in the last 7 days". Never promise future volume.
+- Read the answer: `matched_count` is the 7-day total, `per_day_avg` the average a day, `by_day` the
+  count for each UTC day (oldest first; `partial: true` marks the first day and today, which are only
+  partly in the window). Judge volume by the average a day; use `by_day` to spot a quiet weekend or one
+  busy day, and when the user asks, show the days: `Mon 21 · Tue 25 · Wed 19 · Thu 23 · Fri 17 · Sat 6 · Sun 4`.
 - `preview_filters` allows 10 calls an hour: run at most 3–4 counts per step, compare variants side by side.
 - Keep the `samples` of every count (title, link, budget, client country, spend, rating): they are your
   test jobs in step 3.
@@ -111,14 +116,14 @@ Advice to give:
   Offer 2–3 concrete variants: tool + domain, synonyms clients use, the deliverable
   (`(shopify OR woocommerce) AND (migration OR "theme customization")`).
 - Words separated by spaces are ambiguous. Ask "all of them in one job, or any of them?" with counts:
-  `1. All in one job: (react vue angular) — under 1 a day` / `2. Any of them: react OR vue OR angular — about 120 a day`.
+  `1. All in one job: (react vue angular) — 4 in 7 days (under 1 a day)` / `2. Any of them: react OR vue OR angular — 840 in 7 days (~120 a day)`.
 - If the text has conditions ("US clients, $40+/hr"), keep them out of the query and carry them to step 2.
 
 Count the query alone and react:
-- **0** — offer "any of these words" (`OR`) or more common words, with counts.
+- **0 in 7 days** — offer "any of these words" (`OR`) or more common words, with counts.
 - **over 100 a day** — fine for now: step 2 narrows it. If one word alone brings most of it, say so
   ("`design` alone finds about 400 a day").
-- otherwise — confirm: `Search: (lead generation) OR (cold email) — about 18 jobs in the last 24 hours.`
+- otherwise — confirm: `Search: (lead generation) OR (cold email) — 126 jobs in the last 7 days (~18 a day).`
 
 ### Step 2. Job and client filters
 
@@ -127,15 +132,15 @@ verified, hourly rate, fixed budget, client rating; then job type, experience le
 hire history. Put **every** condition into filters: the server checks them for free, while
 `get_job_details` (the only way to see client stats yourself) is 30 jobs an hour.
 
-Recount search + filters and aim for **5–100 jobs a day** before your criteria. In flconsole's
+Recount search + filters and aim for **5–100 jobs a day** (`per_day_avg`) before your criteria. In flconsole's
 Telegram bot a typical AI filter keeps about 1 in 5 jobs, so this gives roughly 1–20 good jobs a day.
 - **Under 5 a day → "Widen it?"** Find the filter that cuts the most and offer up to 3 ways to relax it,
   each with a count: drop it, halve the rate / budget / client spend, rating 4.0 instead of 4.8,
   add a region next to a country.
-  `Spent $25K+ instead of $50K+ — about 1 a day` · `Without "US only" — about 2 a day`
+  `Spent $25K+ instead of $50K+ — 9 in 7 days (~1 a day)` · `Without "US only" — 16 in 7 days (~2 a day)`
 - **Over 100 a day → "Narrow it down?"** Offer up to 3 filters the user has not set, each with a count:
-  `+ Clients who spent $1K+ — about 55 a day` · `+ Client rating 4.5+ — about 70 a day` ·
-  `+ Intermediate or Expert — about 90 a day`
+  `+ Clients who spent $1K+ — 385 in 7 days (~55 a day)` · `+ Client rating 4.5+ — 490 in 7 days (~70 a day)` ·
+  `+ Intermediate or Expert — 630 in 7 days (~90 a day)`
 - **5–100 a day** — show the filters and the count and move on.
 
 Skip options that change the count by less than 20%. After two rounds of suggestions, let the user keep
@@ -158,7 +163,8 @@ red flags (unpaid test task, "cheap and fast", vague one-line posts, agencies on
   Show each job in one line: ✅ or ❌, title, and the criterion that decided it. Ask: "Would you apply to
   the ✅ ones? Did I skip anything you want?" Fix the criteria from the answer and re-judge the same jobs.
 
-Finish the setup with a summary: search, filters, criteria, the count, and how checks will run
+Finish the setup with a summary: search, filters, criteria, the count ("N jobs in the last 7 days,
+~M a day", with the days if they differ a lot), and how checks will run
 (next section). Offer to save the setup to `upwork-job-hunter.md` in the current folder, so later
 sessions and scheduled checks reuse it without asking again.
 
@@ -196,23 +202,25 @@ with numbers, offer 1–3 concrete changes with counts, change one thing at a ti
 
 | Signal | What to offer |
 |---|---|
-| **Too many**: over 100 a day in `preview_filters`, `skipped_count` above 0, `filters_too_broad`, or more fits than the user can answer | Narrow: add an unset filter (country, payment verified, rate, budget, client rating, spend $1K+), add `AND` with a domain word or `NOT` with a frequent skip word, make a criterion stricter |
-| **Too few**: under 5 a day, or no fits after a day of checks | Widen: test removing each filter and relax the one that cuts the most (halve rate / budget / spend, rating 4.0), add `OR` synonyms, relax a criterion that skips most jobs |
+| **Too many**: over 100 a day (`per_day_avg`) in `preview_filters`, `skipped_count` above 0, `filters_too_broad`, or more fits than the user can answer | Narrow: add an unset filter (country, payment verified, rate, budget, client rating, spend $1K+), add `AND` with a domain word or `NOT` with a frequent skip word, make a criterion stricter |
+| **Too few**: under 5 a day (`per_day_avg`), or no fits after a day of checks | Widen: test removing each filter and relax the one that cuts the most (halve rate / budget / spend, rating 4.0), add `OR` synonyms, relax a criterion that skips most jobs |
 | **Not relevant**: under 1 in 5 jobs pass the criteria, or the user turns down jobs you showed | Read the skip reasons: a reason that repeats 3+ times belongs in the query (`NOT wordpress`) or in filters (`hourly_rate.min`). A job the user turned down: ask why and add it to the criteria. A good job you skipped: relax the criterion that skipped it |
 
 Example:
 
 ```text
-Last 24 hours: 64 jobs matched your search and filters, 41 reached you in checks.
-11 passed your criteria, you liked 3.
+Last 7 days: 448 jobs matched your search and filters (~64 a day).
+By day: Fri 75 · Sat 40 · Sun 33 · Mon 80 · Tue 82 · Wed 78 · Thu 60 (today, so far).
+Today 41 reached you in checks, 11 passed your criteria, you liked 3.
 Most skips: WordPress (12), budget under $500 (9), agency posts (6).
-1. Add NOT wordpress to the search — about 48 a day instead of 64
-2. Fixed budget from $500 — about 39 a day
+1. Add NOT wordpress to the search — 336 in 7 days (~48 a day) instead of ~64
+2. Fixed budget from $500 — 273 in 7 days (~39 a day)
 Change one?
 ```
 
-Measure each change the same way: the `preview_filters` count over 24 hours before and after, then the
-share of jobs that pass your criteria over the next checks.
+Measure each change the same way: the `preview_filters` count over 7 days before and after (total and
+~per day), then the share of jobs that pass your criteria over the next checks. Compare full days only:
+a `partial` day is not a drop.
 
 ## Limits and errors
 
@@ -220,7 +228,7 @@ share of jobs that pass your criteria over the next checks.
 |---|---|
 | `find_jobs` | one call every 60 seconds, 100 jobs an hour, 1,000 a day; `limit` 1–30 per call (default 10) |
 | `get_job_details` | 30 jobs an hour, up to 5 per call |
-| `preview_filters` | 10 calls an hour |
+| `preview_filters` | 10 calls an hour; window up to 7 days (168 hours, the default) |
 | `parse_upwork_url` | 30 calls an hour |
 | Feed changes | 20 an hour; up to 5 feeds |
 
