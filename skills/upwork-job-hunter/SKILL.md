@@ -54,8 +54,8 @@ If the user does not want anything stored on the server, use way 1 and offer to 
 | Tool | Use it for |
 |---|---|
 | `get_agent_context` | First call of every session: how-to, personal instructions, saved setups |
-| `save_setup`, `list_setups`, `delete_setup` | Saved setups (up to 5): name, `filters`, `ai_criteria`, `notes`. `save_setup` creates one or changes it by `setup_id` or the same name; omitted fields are kept. Deleting needs the user's yes |
-| `save_agent_instructions` | The user's personal instructions: `mode: "append"` adds a point, `"replace"` rewrites the whole text (up to 12,000 characters) |
+| `save_setup`, `list_setups`, `delete_setup` | Saved setups (up to 5): name, `filters` (up to 4 KB), `ai_criteria` (up to 2,000 characters), `notes` (up to 1,500). `save_setup` creates one or changes it by `setup_id` or the same name; omitted fields are kept. Deleting needs the user's yes |
+| `save_agent_instructions` | The user's personal instructions: `mode: "append"` adds a point, `"replace"` rewrites the whole text (up to 6,000 characters) |
 | `find_jobs` | New jobs by `setup_id` (a saved setup), by `filters`, or by a Telegram feed (`feed_id`, `all_feeds`) |
 | `preview_filters` | How many jobs a setup matched over the last 7 days (`window_hours` up to 168, the default): total, average a day, count per UTC day + the 3 newest samples |
 | `get_job_details` | Full text, terms and client stats for up to 5 `upwork_ids` per call |
@@ -268,7 +268,7 @@ a `partial` day is not a drop. When the user accepts a change, save it to the se
 | `get_job_details` | 30 jobs an hour, up to 5 per call |
 | `preview_filters` | 10 calls an hour; window up to 7 days (168 hours, the default) |
 | `parse_upwork_url` | 30 calls an hour |
-| Setups and personal instructions | up to 5 setups (separate from feeds); 30 storage changes an hour; instructions up to 12,000 characters |
+| Setups and personal instructions | up to 5 setups (separate from feeds); 30 storage changes an hour; instructions up to 6,000 characters, `ai_criteria` up to 2,000, `notes` up to 1,500, filters up to 4 KB per setup |
 | Feed changes | 20 an hour; up to 5 feeds |
 
 - `too_early`, `rate_limited`, `quota_exhausted`: wait `retry_after_seconds`; `get_usage` shows what is left.
