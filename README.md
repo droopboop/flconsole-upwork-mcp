@@ -180,12 +180,16 @@ Set up my Upwork job search.
 
 ## No terminal? Install in Claude app
 
-The same skill works in the Claude app on the web and on desktop.
+Works in the Claude app on the web and on desktop.
+
+1. Open **Customize → Connectors**, click **+** → **Add custom connector** and paste `https://mcp.lite.flconsole.com/mcp`. Click **Connect** and sign in through Telegram (see [Sign-in](#sign-in)).
+2. **Quickest: paste a prompt.** Copy the [ready prompt](https://flconsole.com/how-to/mcp?utm_source=github&utm_medium=referral&utm_campaign=repo#no-terminal) and paste it at the start of a chat, or into the instructions of a Claude project.
+
+**Want it installed? Add the skill.** After step 1:
 
 1. Download [**upwork-job-hunter.zip**](https://github.com/droopboop/flconsole-upwork-mcp/releases/latest/download/upwork-job-hunter.zip). Don't unzip it.
 2. In Claude, open **Customize → Skills**, click **+** → **Create skill** → **Upload a skill** and pick the file. Make sure the skill is turned on. If you don't see Skills, turn on **Code execution and file creation** in **Settings → Capabilities**.
-3. Open **Customize → Connectors**, click **+** → **Add custom connector** and paste `https://mcp.lite.flconsole.com/mcp`. Click **Connect** and sign in through Telegram (see [Sign-in](#sign-in)).
-4. Start a new chat and say:
+3. Start a new chat and say:
 
 ```text
 Set up my Upwork job search.
