@@ -133,6 +133,10 @@ Arguments, filters and job fields: [MCP reference](https://flconsole.com/docs/mc
 ## Prompts to start with
 
 ```text
+Find new React Native jobs: hourly from $40, clients from the US or Canada with verified payment. Show only the ones about fintech.
+```
+
+```text
 Check new jobs in my feeds and show only relevant ones.
 ```
 
@@ -148,11 +152,24 @@ On a schedule in Claude Code:
 
 ## Skill for Claude Code
 
-[`skills/upwork-job-hunter`](skills/upwork-job-hunter/SKILL.md) teaches the agent the whole routine: learn what fits you,
-set up feeds, check new jobs, shortlist and draft proposals. Copy it into `~/.claude/skills/`:
+[`skills/upwork-job-hunter`](skills/upwork-job-hunter/SKILL.md) turns your agent into a job scout. No feed needed: the agent searches new jobs with your query and filters and reads every job itself.
+
+- **Setup in 3 steps**, like the onboarding of the Telegram bot: what to search, job and client filters, and your own AI criteria in plain words. The agent counts matching jobs at every step and suggests how to sharpen the search.
+- **Your AI filter, applied by your agent.** It tests your criteria on real jobs, shows what passed and why, and you adjust them.
+- **Shortlist with reasons** on every check, and proposal drafts for the jobs you pick. Nothing is sent for you.
+- **Tuning with numbers.** Too many jobs, too few or not the right ones — the agent shows the counts and offers concrete changes to the search, filters and criteria.
+- **Telegram alerts** when you want them: the same setup becomes a feed with an AI filter.
+
+Copy it into `~/.claude/skills/`:
 
 ```bash
 mkdir -p ~/.claude/skills/upwork-job-hunter && curl -fsSL https://raw.githubusercontent.com/droopboop/flconsole-upwork-mcp/main/skills/upwork-job-hunter/SKILL.md -o ~/.claude/skills/upwork-job-hunter/SKILL.md
+```
+
+Then ask Claude Code:
+
+```text
+Set up my Upwork job search.
 ```
 
 ## With Upwork's own MCP
