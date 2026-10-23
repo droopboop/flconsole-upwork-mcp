@@ -36,7 +36,7 @@ https://mcp.lite.flconsole.com/mcp
 ```
 
 - **Free.** No card, no API key, no paid plan.
-- **Your feeds, shared with Telegram.** A feed your agent creates also sends alerts to the [Telegram bot](https://t.me/flconsole_upwork_job_alerts_bot?start=github_repo) within a minute of posting.
+- **One feed, for your agent and your phone.** Your agent saves searches as feeds on the server; turn on alerts for any of them with one command and the [Telegram bot](https://t.me/flconsole_upwork_job_alerts_bot?start=github_repo) sends matching jobs within a minute of posting.
 - **No access to your Upwork account.** flconsole never asks for your Upwork login.
 
 ## Contents
@@ -118,26 +118,25 @@ The sign-in link works for 10 minutes. Disconnect any app later in the bot: `/mc
 | Way | What your agent does | What is stored |
 |---|---|---|
 | **1. Search only** | `find_jobs` with a search query and filters in every call | Nothing |
-| **2. Search + memory on the server** | Starts each session with `get_agent_context`, keeps up to 5 saved searches (search, job and client filters, your AI criteria in plain words) and its notes about you. Start any agent anywhere and it picks up where the last one stopped | Saved searches and the agent's notes, on flconsole's server |
-| **3. Telegram feeds** | Sets up feeds in the Telegram bot, which sends you every new matching job | Feeds, as in the bot |
+| **2. Feeds for your agent + memory** | Starts each session with `get_agent_context`, keeps up to 5 feeds with alerts off (search, job and client filters, your AI filter in plain words, its own notes) and its notes about you. Start any agent anywhere and it picks up where the last one stopped | Feeds and the agent's notes, on flconsole's server |
+| **3. Telegram alerts** | Turns on alerts for a feed with one command (`set_feed_alerts`): the Telegram bot sends you every new matching job, filtered by the same AI filter | The same feed, now with alerts on |
 
-Saved searches are not feeds: no alerts go out and nothing runs on the server — your agent checks them with `find_jobs` and applies your AI criteria itself. They don't use the 5-feed limit.
+A feed with alerts off is for your agent only: nothing goes to Telegram and nothing runs on the server — your agent checks it with `find_jobs` and applies your AI filter itself. You see both kinds in the bot's `/feeds`, where you can turn alerts on or off, pause or delete a feed.
 
 ## Tools
 
 | Tool | What it does |
 |---|---|
-| `get_agent_context` | Start of a session: how-to, your saved notes and searches |
-| `find_jobs` | New jobs by a saved search, any filters, a feed or all feeds |
-| `save_setup` | Saves or changes a search: filters, AI criteria, notes |
-| `list_setups` | Your saved searches |
-| `delete_setup` | Deletes a saved search; needs your approval |
-| `save_agent_instructions` | Saves the agent's notes about you: preferences, conclusions |
+| `get_agent_context` | Start of a session: how-to, the agent's notes about you and all your feeds |
+| `find_jobs` | New jobs by a feed, all feeds or any filters |
 | `get_job_details` | Full data for the jobs you picked |
-| `list_feeds` | Your feeds with filters and status |
-| `create_feed` | Creates a feed; needs your approval |
-| `update_feed` | Changes, pauses or resumes a feed |
+| `list_feeds` | Your feeds: filters, AI filter, alerts on or off, paused |
+| `create_feed` | Saves a feed (alerts off unless you ask); needs your approval |
+| `update_feed` | Changes a feed's search, filters, AI filter or the agent's notes |
+| `set_feed_alerts` | Turns Telegram alerts for a feed on or off; needs your approval |
+| `set_feed_paused` | Pauses or resumes a feed |
 | `delete_feed` | Deletes a feed; needs your approval |
+| `save_agent_instructions` | Saves the agent's notes about you: preferences, conclusions |
 | `preview_filters` | How many jobs matched over the last 7 days: total, ~per day and per UTC day, with samples |
 | `parse_upwork_url` | Turns an Upwork search link into filters |
 | `list_categories` | Upwork categories and subcategories |
@@ -153,15 +152,15 @@ Find new React Native jobs: hourly from $40, clients from the US or Canada with 
 ```
 
 ```text
-Check new jobs with my saved flconsole searches and show only the ones that fit.
+Check new jobs in my flconsole feeds and show only the ones that fit.
 ```
 
 ```text
-Check new jobs in my feeds and show only relevant ones.
+Save this Upwork search link as a feed: <link>. Show me the filters before saving.
 ```
 
 ```text
-Create a feed from this Upwork search link: <link>. Show me the filters before saving.
+Turn on Telegram alerts for my React Native feed.
 ```
 
 On a schedule in Claude Code:
@@ -174,12 +173,12 @@ On a schedule in Claude Code:
 
 [`skills/upwork-job-hunter`](skills/upwork-job-hunter/SKILL.md) turns your agent into a job scout. No feed needed: the agent searches new jobs with your query and filters and reads every job itself.
 
-- **Picks up where you left off.** Every session starts with `get_agent_context`: your saved searches and what the agent learned about you are kept on the server, so any agent on any device continues the same work. Prefer a local file? Say so, and it keeps `upwork-job-hunter.md` instead.
+- **Picks up where you left off.** Every session starts with `get_agent_context`: your feeds and what the agent learned about you are kept on the server, so any agent on any device continues the same work. Prefer a local file? Say so, and it keeps `upwork-job-hunter.md` instead.
 - **Setup in 3 steps**, like the onboarding of the Telegram bot: what to search, job and client filters, and your own AI criteria in plain words. The agent counts matching jobs at every step and suggests how to sharpen the search.
 - **Your AI filter, applied by your agent.** It tests your criteria on real jobs, shows what passed and why, and you adjust them.
 - **Shortlist with reasons** on every check, and proposal drafts for the jobs you pick. Nothing is sent for you.
 - **Tuning with numbers.** Too many jobs, too few or not the right ones — the agent shows the counts and offers concrete changes to the search, filters and criteria.
-- **Telegram alerts** when you want them: the same setup becomes a feed with an AI filter.
+- **Telegram alerts** when you want them: one command turns them on for the same feed, with the same AI filter.
 
 Install it with the [skills](https://skills.sh) CLI (add `-g` to use it in all your projects):
 
@@ -230,12 +229,12 @@ Setup: [flconsole + Upwork's MCP](https://flconsole.com/upwork-mcp?utm_source=gi
 
 | | Limit |
 |---|---|
-| Feeds | 5 (shared with Telegram) |
+| Feeds with Telegram alerts | 5 |
+| Feeds for your agent (alerts off) | 5 more |
 | `find_jobs` | 100 jobs an hour, 1,000 a day, one call every 60 seconds |
 | `get_job_details` | 30 jobs an hour |
 | Feed changes | 20 an hour |
-| Saved searches | 5 (separate from feeds) |
-| Changes to saved searches and notes | 30 an hour |
+| Changes to the agent's notes | 30 an hour |
 | `preview_filters` | 10 an hour |
 | `parse_upwork_url` | 30 an hour |
 | Connections | 5 apps at a time |
