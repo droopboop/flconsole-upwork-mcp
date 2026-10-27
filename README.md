@@ -47,6 +47,7 @@ https://mcp.lite.flconsole.com/mcp
 - [Tools](#tools)
 - [Prompts to start with](#prompts-to-start-with)
 - [Skill for Claude Code](#skill-for-claude-code)
+- [Feed tuner: keep your alerts accurate](#feed-tuner-keep-your-alerts-accurate)
 - [No terminal? Install in Claude app](#no-terminal-install-in-claude-app)
 - [With Upwork's own MCP](#with-upworks-own-mcp)
 - [Limits](#limits)
@@ -142,6 +143,12 @@ A feed with alerts off is for your agent only: nothing goes to Telegram and noth
 | `list_categories` | Upwork categories and subcategories |
 | `find_locations` | Countries and regions by name |
 | `get_usage` | What's left of your limits |
+| `get_skill` | Step-by-step instructions for a task: job scout, Telegram setup, feed tuner, AI filter, ratings |
+| `rate_job` | 👍/👎 a job for you, only when you say so |
+| `tuner_checkin` | Feed tuner: which feeds are due for a check now |
+| `get_feed_report` | Feed tuner: jobs sent and opened, your 👍/👎, what the AI filter skipped, recent changes |
+| `set_feed_tuner` | Turns the feed tuner on or off for a feed, with your target jobs a day; needs your approval |
+| `log_tuner_run` | Feed tuner: records what was checked and changed; you get the change in Telegram with Undo |
 
 Arguments, filters and job fields: [MCP reference](https://flconsole.com/docs/mcp?utm_source=github&utm_medium=referral&utm_campaign=repo).
 
@@ -197,6 +204,30 @@ Then ask Claude Code:
 ```text
 Set up my Upwork job search.
 ```
+
+## Feed tuner: keep your alerts accurate
+
+[`skills/feed-tuner`](skills/feed-tuner/SKILL.md) lets your agent keep your Telegram job alerts accurate on its own.
+
+- **Set up once.** The agent asks a few questions in one message — jobs a day, work you never take, budget and client limits — checks your feed on the last 7 days and shows a short plan.
+- **Checks on a schedule.** An hourly task in Claude runs the check; the server decides when a feed is due (often for a new feed, rarely for a stable one).
+- **Looks at what matters:** the jobs against what you asked for, how many arrive against your target, what the AI filter skipped, and your 👍/👎.
+- **Small, explained changes.** At most one set of related edits per check, to the search, filters or AI filter. Every change comes to Telegram with the reason and an **Undo** button.
+- **Your edits win.** It never deletes or pauses a feed and never turns alerts off.
+
+In Claude (web, desktop) with the flconsole connector, just say:
+
+```text
+Set up the flconsole feed tuner for me.
+```
+
+The tuner rules are served by flconsole (`get_skill`), so no install is needed. For Claude Code, add the skill like the one above:
+
+```bash
+mkdir -p ~/.claude/skills/feed-tuner && curl -fsSL https://raw.githubusercontent.com/droopboop/flconsole-upwork-mcp/main/skills/feed-tuner/SKILL.md -o ~/.claude/skills/feed-tuner/SKILL.md
+```
+
+More: [flconsole.com/agent-feed-tuner](https://flconsole.com/agent-feed-tuner?utm_source=github&utm_medium=referral&utm_campaign=repo)
 
 ## No terminal? Install in Claude app
 
