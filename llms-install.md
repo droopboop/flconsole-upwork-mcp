@@ -23,7 +23,7 @@ Add this to `cline_mcp_settings.json`:
 
 If the client opens a sign-in page, ask the user to complete it: tap **Continue in Telegram**, tap **Allow** in the flconsole bot and enter the 4-digit code on the page.
 
-If the client cannot sign in with OAuth, ask the user for a manual token: in the Telegram bot [@flconsole_upwork_job_alerts_bot](https://t.me/flconsole_upwork_job_alerts_bot) send `/mcp` → **Manual token (other apps)**. Then use:
+If the client cannot sign in with OAuth, ask the user for a manual token: in the Telegram bot [@flconsole_upwork_job_alerts_bot](https://t.me/flconsole_upwork_job_alerts_bot?start=llms_install) send `/mcp` → **Manual token (other apps)**. Then use:
 
 ```json
 {
