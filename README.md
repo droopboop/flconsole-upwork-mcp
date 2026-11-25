@@ -278,6 +278,8 @@ Setup: [flconsole + Upwork's MCP](https://flconsole.com/upwork-mcp?utm_source=gi
 - MCP server: [flconsole.com/mcp](https://flconsole.com/mcp?utm_source=github&utm_medium=referral&utm_campaign=repo)
 - MCP reference: [flconsole.com/docs/mcp](https://flconsole.com/docs/mcp?utm_source=github&utm_medium=referral&utm_campaign=repo)
 - Telegram bot: [@flconsole_upwork_job_alerts_bot](https://t.me/flconsole_upwork_job_alerts_bot?start=github_repo)
+- Free tools: [AI filter prompts](https://flconsole.com/tools/ai-filter-prompts?utm_source=github&utm_medium=referral&utm_campaign=repo) · [Connects ROI calculator](https://flconsole.com/tools/upwork-connects-roi?utm_source=github&utm_medium=referral&utm_campaign=repo) · [Upwork hourly rates](https://flconsole.com/tools/upwork-rates?utm_source=github&utm_medium=referral&utm_campaign=repo) · [Best time to apply](https://flconsole.com/tools/upwork-best-time?utm_source=github&utm_medium=referral&utm_campaign=repo)
+- Open data & research: [Upwork Jobs Index](https://flconsole.com/research/upwork-jobs-index?utm_source=github&utm_medium=referral&utm_campaign=repo) · [Open Upwork jobs dataset (CC BY 4.0)](https://github.com/droopboop/upwork-jobs-data)
 - Compare with paid tools: [flconsole.com/compare](https://flconsole.com/compare?utm_source=github&utm_medium=referral&utm_campaign=repo)
 - Privacy: [flconsole.com/privacy](https://flconsole.com/privacy?utm_source=github&utm_medium=referral&utm_campaign=repo) · Terms: [flconsole.com/terms](https://flconsole.com/terms?utm_source=github&utm_medium=referral&utm_campaign=repo)
 
